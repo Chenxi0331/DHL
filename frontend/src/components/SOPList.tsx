@@ -18,8 +18,7 @@ export const SOPList = ({ onSelectSop, refreshTrigger }: SOPListProps) => {
     const fetchSops = async () => {
       try {
         setLoading(true);
-        // Assuming backend is running on 3000
-        const response = await axios.get('http://localhost:3000/knowledge'); 
+        const response = await axios.get(`http://localhost:3000/ingest/search?q=${search}`); 
         setSops(response.data);
       } catch (err) {
         console.error('Failed to fetch SOPs', err);
@@ -27,10 +26,12 @@ export const SOPList = ({ onSelectSop, refreshTrigger }: SOPListProps) => {
         setLoading(false);
       }
     };
-    fetchSops();
-  }, [refreshTrigger]);
-
-  const filtered = sops.filter(s => s.title.toLowerCase().includes(search.toLowerCase()) || (s.category && s.category.toLowerCase().includes(search.toLowerCase())));
+    
+    const timeoutId = setTimeout(() => {
+      fetchSops();
+    }, 300);
+    return () => clearTimeout(timeoutId);
+  }, [refreshTrigger, search]);
 
   return (
     <div className="w-full">
@@ -58,7 +59,7 @@ export const SOPList = ({ onSelectSop, refreshTrigger }: SOPListProps) => {
           <Loader2 className="w-10 h-10 text-dhl-yellow animate-spin" />
           <p className="text-gray-500 font-medium tracking-wide">Loading knowledge base...</p>
         </div>
-      ) : filtered.length === 0 ? (
+      ) : sops.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-64 bg-white rounded-2xl border border-gray-100 border-dashed">
           <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
             <FileText className="w-8 h-8 text-gray-300" />
@@ -67,7 +68,7 @@ export const SOPList = ({ onSelectSop, refreshTrigger }: SOPListProps) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((sop, idx) => (
+          {sops.map((sop, idx) => (
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -77,8 +78,13 @@ export const SOPList = ({ onSelectSop, refreshTrigger }: SOPListProps) => {
               className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer group flex flex-col"
             >
               <div className="flex items-start justify-between mb-4">
-                <div className={`px-2.5 py-1 rounded-md text-xs font-semibold tracking-wide ${sop.category ? 'bg-dhl-yellow/20 text-[#D40511]' : 'bg-gray-100 text-gray-600'}`}>
-                  {(sop.category || 'Uncategorized').toUpperCase()}
+                <div className="flex items-center gap-2">
+                  <div className={`px-2.5 py-1 rounded-md text-xs font-semibold tracking-wide ${sop.category ? 'bg-dhl-yellow/20 text-[#D40511]' : 'bg-gray-100 text-gray-600'}`}>
+                    {(sop.category || 'UNCATEGORIZED').toUpperCase()}
+                  </div>
+                  <div className={`px-2 py-1 rounded-md text-xs font-semibold ${sop.status === 'Verified' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                    {sop.status || 'Draft'}
+                  </div>
                 </div>
                 <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-dhl-yellow/10 transition-colors">
                   <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-dhl-red" />

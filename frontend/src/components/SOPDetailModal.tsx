@@ -47,6 +47,12 @@ export const SOPDetailModal = ({ sop, onClose }: SOPDetailModalProps) => {
                 <span className={`px-3 py-1 rounded-md text-xs font-bold tracking-wider ${sop.category ? 'bg-dhl-yellow text-black' : 'bg-gray-200 text-gray-700'}`}>
                   {(sop.category || 'UNCATEGORIZED').toUpperCase()}
                 </span>
+                <span className={`px-3 py-1 rounded-md text-xs font-bold tracking-wider ${sop.status === 'Verified' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                  {sop.status.toUpperCase()}
+                </span>
+                <span className="px-3 py-1 rounded-md text-xs font-bold tracking-wider bg-blue-50 text-blue-700">
+                  {sop.sourceType.toUpperCase()}
+                </span>
                 <span className="flex items-center text-xs text-gray-400 font-medium">
                   <Clock className="w-3.5 h-3.5 mr-1" />
                   {new Date(sop.createdAt).toLocaleString()}

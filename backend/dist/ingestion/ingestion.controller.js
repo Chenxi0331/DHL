@@ -12,7 +12,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var IngestionController_1;
-var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.IngestionController = void 0;
 const common_1 = require("@nestjs/common");
@@ -21,13 +20,14 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const gemini_service_1 = require("./gemini.service");
 const knowledge_article_schema_1 = require("./schemas/knowledge-article.schema");
+const auth_guard_1 = require("../auth/auth.guard");
 let IngestionController = IngestionController_1 = class IngestionController {
     constructor(geminiService, knowledgeArticleModel) {
         this.geminiService = geminiService;
         this.knowledgeArticleModel = knowledgeArticleModel;
         this.logger = new common_1.Logger(IngestionController_1.name);
     }
-    async handleIngestion(file, text) {
+    async handleIngestion(file, text, sourceType) {
         try {
             if (!file && !text) {
                 throw new common_1.HttpException('Must provide either a file or text content', common_1.HttpStatus.BAD_REQUEST);
@@ -44,6 +44,7 @@ let IngestionController = IngestionController_1 = class IngestionController {
                 structuredSteps: structuredData.structuredSteps,
                 originalContent: rawContent,
                 sourceFileUrl: file ? file.originalname : null,
+                sourceType: sourceType || 'Manual',
             });
             const savedArticle = await newArticle.save();
             return {
@@ -60,6 +61,26 @@ let IngestionController = IngestionController_1 = class IngestionController {
             }, error.status || common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async searchArticles(q) {
+        try {
+            if (!q) {
+                return await this.knowledgeArticleModel.find().sort({ createdAt: -1 }).exec();
+            }
+            const regex = new RegExp(q, 'i');
+            return await this.knowledgeArticleModel.find({
+                $or: [
+                    { title: { $regex: regex } },
+                    { summary: { $regex: regex } },
+                    { originalContent: { $regex: regex } },
+                    { category: { $regex: regex } }
+                ]
+            }).sort({ createdAt: -1 }).exec();
+        }
+        catch (error) {
+            this.logger.error('Failed to search articles', error);
+            throw new common_1.HttpException('Failed to fetch articles', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 };
 exports.IngestionController = IngestionController;
 __decorate([
@@ -67,13 +88,23 @@ __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     __param(0, (0, common_1.UploadedFile)()),
     __param(1, (0, common_1.Body)('text')),
+    __param(2, (0, common_1.Body)('sourceType')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_c = typeof Express !== "undefined" && (_b = Express.Multer) !== void 0 && _b.File) === "function" ? _c : Object, String]),
+    __metadata("design:paramtypes", [Object, String, String]),
     __metadata("design:returntype", Promise)
 ], IngestionController.prototype, "handleIngestion", null);
+__decorate([
+    (0, common_1.Get)('search'),
+    __param(0, (0, common_1.Query)('q')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], IngestionController.prototype, "searchArticles", null);
 exports.IngestionController = IngestionController = IngestionController_1 = __decorate([
     (0, common_1.Controller)('ingest'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(1, (0, mongoose_1.InjectModel)(knowledge_article_schema_1.KnowledgeArticle.name)),
-    __metadata("design:paramtypes", [gemini_service_1.GeminiService, typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object])
+    __metadata("design:paramtypes", [gemini_service_1.GeminiService,
+        mongoose_2.Model])
 ], IngestionController);
 //# sourceMappingURL=ingestion.controller.js.map

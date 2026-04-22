@@ -5,5 +5,7 @@ export interface KnowledgeArticle {
   structuredSteps: string[];
   category?: string;
   sourceFileUrl?: string;
+  status: string;
+  sourceType: string;
   createdAt: string;
 }

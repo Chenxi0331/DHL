@@ -23,6 +23,12 @@ export class KnowledgeArticle {
   @Prop()
   sourceFileUrl: string; // The URL/path of original image or screenshot
 
+  @Prop({ enum: ['Draft', 'Verified'], default: 'Draft' })
+  status: string;
+
+  @Prop({ enum: ['Email', 'Chat', 'Manual', 'Other'], default: 'Manual' })
+  sourceType: string;
+
   @Prop()
   createdAt: Date;
   

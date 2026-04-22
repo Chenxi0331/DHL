@@ -39,6 +39,14 @@ __decorate([
     __metadata("design:type", String)
 ], KnowledgeArticle.prototype, "sourceFileUrl", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ enum: ['Draft', 'Verified'], default: 'Draft' }),
+    __metadata("design:type", String)
+], KnowledgeArticle.prototype, "status", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ enum: ['Email', 'Chat', 'Manual', 'Other'], default: 'Manual' }),
+    __metadata("design:type", String)
+], KnowledgeArticle.prototype, "sourceType", void 0);
+__decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", Date)
 ], KnowledgeArticle.prototype, "createdAt", void 0);
