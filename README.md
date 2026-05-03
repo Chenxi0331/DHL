@@ -58,7 +58,12 @@ cd your-repo-name
     ```bash
     npm run dev
     ```
-
+    
+### **4.  RPA Setup (UiPath):**
+1. Open Project: Launch UiPath Studio and open your .xaml project file.
+2. Update Endpoint: In the "HTTP Request" activity, ensure the URL is set to
+   http://localhost:3000/ingest.
+4. Drive Configuration: Ensure the "Path" in your "Get Files" activity matches your local folder or Google Drive directory containing the test files.
 
 ## 📖 Usage Guide
 ### **Manual Ingestion**
