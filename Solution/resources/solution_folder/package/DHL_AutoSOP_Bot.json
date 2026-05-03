@@ -1,0 +1,26 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "DHL_AutoSOP_Bot",
+    "kind": "package",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "c96ddfd8-1301-4913-b5f9-95eb36a248a6",
+    "isOverridable": true,
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "files": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "fileName": null,
+      "fileReference": null,
+      "name": "DHL_AutoSOP_Bot",
+      "description": null
+    },
+    "locks": [],
+    "key": "d9143460-480f-45a6-94cb-1c91d5f5db04"
+  }
+}

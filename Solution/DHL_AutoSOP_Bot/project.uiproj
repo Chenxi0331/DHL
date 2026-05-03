@@ -1,0 +1,6 @@
+{
+  "Name": "DHL_AutoSOP_Bot",
+  "ProjectType": "Process",
+  "Description": "Automated ingestion bot for DHL Scenario 1",
+  "MainFile": "Main.xaml"
+}

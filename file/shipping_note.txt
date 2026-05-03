@@ -1,0 +1,8 @@
+ID: 109283-X
+Origin: Penang Port
+Dest: UTM Skudai
+Notes: Fragile!!! Handle with care.
+If box is wet -> reject shipment immediately.
+If box is dry but rattling -> open and inspect for glass shards.
+Wear gloves during inspection.
+Log result in the "Incident Tracker" app.

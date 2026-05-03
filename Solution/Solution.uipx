@@ -1,0 +1,12 @@
+{
+  "DocVersion": "1.0.0",
+  "StudioMinVersion": "2025.04.0",
+  "SolutionId": "faf6498e-b790-4f0b-92c8-6da92d3c1e75",
+  "Projects": [
+    {
+      "Type": "Process",
+      "ProjectRelativePath": "DHL_AutoSOP_Bot/project.uiproj",
+      "Id": "c96ddfd8-1301-4913-b5f9-95eb36a248a6"
+    }
+  ]
+}
