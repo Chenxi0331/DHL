@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # DHL AutoSOP Engine (MVP)
 
 An automated system designed for DHL Logistics Operations to transform unstructured, messy data (chats, emails, screenshots, handwritten notes) into standardized Standard Operating Procedures (SOPs) using Generative AI.
