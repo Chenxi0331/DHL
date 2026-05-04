@@ -110,6 +110,8 @@ The backend exposes a POST /ingest endpoint. You can configure a UiPath bot to:
 * [x] **Raw Information Upload:** Supported (Text/File).
 * [x] **Structured Article Conversion:** Fully automated via Gemini.
 * [x] **Search & Manage:** Implemented via MongoDB and React List.
-=======
+
+
+
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/AdXPQXWO)
->>>>>>> 2c6745a07a50340d3e3d29e342dc5a2bf6058e16
+
