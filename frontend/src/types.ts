@@ -1,6 +1,7 @@
 export interface KnowledgeArticle {
   _id: string;
   title: string;
+  summary?: string;
   originalContent: string;
   structuredSteps: string[];
   category?: string;

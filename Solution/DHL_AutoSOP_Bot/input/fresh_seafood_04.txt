@@ -1,0 +1,15 @@
+ID: SEA-442-KL
+
+Origin: Sabah Fisheries
+
+Dest: UTM Cafeteria / Research Lab
+
+Notes: Live Crabs and Iced Salmon.
+
+Input Details: > Check the ice level every 4 hours.
+
+If water is leaking from the bottom, the drainage plug is loose—tighten it.
+
+If the smell is "ammonia-like," move to the disposal bin immediately.
+
+Ensure the "Live Animals" side is kept facing up.

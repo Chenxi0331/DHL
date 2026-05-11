@@ -1,4 +1,4 @@
-import { Controller, Post, UseInterceptors, UploadedFile, Body, Logger, HttpException, HttpStatus, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile, Body, Logger, HttpException, HttpStatus, Get, Query, UseGuards, Put, Param, Delete } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -89,6 +89,54 @@ export class IngestionController {
     } catch (error) {
       this.logger.error('Failed to search articles', error);
       throw new HttpException('Failed to fetch articles', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  @Put(':id')
+  async updateArticle(@Param('id') id: string, @Body() updateData: Partial<KnowledgeArticle>) {
+    try {
+      const updatedArticle = await this.knowledgeArticleModel.findByIdAndUpdate(
+        id,
+        { $set: updateData },
+        { new: true }
+      ).exec();
+
+      if (!updatedArticle) {
+        throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
+      }
+
+      return {
+        status: 'success',
+        message: 'Successfully updated SOP',
+        data: updatedArticle
+      };
+    } catch (error) {
+      this.logger.error(`Failed to update article ${id}`, error);
+      throw new HttpException(
+        (error as any).message || 'Failed to update article',
+        (error as any).status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
+  @Delete(':id')
+  async deleteArticle(@Param('id') id: string) {
+    try {
+      const deletedArticle = await this.knowledgeArticleModel.findByIdAndDelete(id).exec();
+      
+      if (!deletedArticle) {
+        throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
+      }
+
+      return {
+        status: 'success',
+        message: 'Successfully deleted SOP'
+      };
+    } catch (error) {
+      this.logger.error(`Failed to delete article ${id}`, error);
+      throw new HttpException(
+        (error as any).message || 'Failed to delete article',
+        (error as any).status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 }

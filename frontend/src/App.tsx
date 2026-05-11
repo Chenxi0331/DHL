@@ -73,6 +73,14 @@ function Dashboard() {
       <SOPDetailModal 
         sop={selectedSop} 
         onClose={() => setSelectedSop(null)} 
+        onUpdate={() => {
+          setSelectedSop(null);
+          setRefreshList(prev => prev + 1);
+        }}
+        onDelete={() => {
+          setSelectedSop(null);
+          setRefreshList(prev => prev + 1);
+        }}
       />
     </div>
   );
