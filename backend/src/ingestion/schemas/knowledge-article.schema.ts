@@ -26,7 +26,7 @@ export class KnowledgeArticle {
   @Prop({ enum: ['Draft', 'Verified'], default: 'Draft' })
   status: string;
 
-  @Prop({ enum: ['Email', 'Chat', 'Manual', 'Other'], default: 'Manual' })
+  @Prop({ enum: ['Email', 'Chat', 'Manual', 'Other', 'UiPath Bot'], default: 'Manual' })
   sourceType: string;
 
   @Prop()

@@ -32,7 +32,15 @@ export class IngestionController {
 
       // 1. Process multimodal payload via Gemini to get structured JSON
       const imageBuffer = file?.buffer;
-      const mimeType = file?.mimetype;
+      let mimeType = file?.mimetype;
+
+      if (mimeType === 'application/octet-stream' && file?.originalname) {
+        const ext = file.originalname.split('.').pop()?.toLowerCase();
+        if (ext === 'txt') mimeType = 'text/plain';
+        else if (ext === 'png') mimeType = 'image/png';
+        else if (ext === 'jpg' || ext === 'jpeg') mimeType = 'image/jpeg';
+        else if (ext === 'pdf') mimeType = 'application/pdf';
+      }
       
       const structuredData = await this.geminiService.generateStructuredSOP(text, imageBuffer, mimeType);
       
